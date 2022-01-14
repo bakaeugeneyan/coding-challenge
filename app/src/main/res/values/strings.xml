@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Coding Challenge</string>
+    <string name="user_avatar_placeholder">user avatar place holder</string>
+</resources>
