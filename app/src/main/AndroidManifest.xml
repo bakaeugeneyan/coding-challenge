@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CodingChallenge">
         <activity
-            android:name=".ui.DetailsActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

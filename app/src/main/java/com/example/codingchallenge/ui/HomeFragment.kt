@@ -23,7 +23,6 @@ class HomeFragment : Fragment()
 {
     private  var _binding: FragmentHomeBinding? = null
     private val binding get () = _binding!!
-
     private lateinit var mainViewModel: MainViewModel
     private lateinit var userViewModel: UserViewModel
     private val mAdapter by lazy { UsersAdapter() }
