@@ -64,19 +64,19 @@ class MainViewModel @Inject constructor(
 
 
     private fun handleItunesResponse(response: Response<UserList>): NetworkResult<UserList>? {
-        when {
+        return when {
             response.message().toString().contains("timeout") -> {
-                return NetworkResult.Error("Timeout")
+                NetworkResult.Error("Timeout")
             }
             response.body()!!.data.isNullOrEmpty() -> {
-                return NetworkResult.Error("Itunes not found.")
+                NetworkResult.Error("Itunes not found.")
             }
             response.isSuccessful -> {
                 val itunes = response.body()
-                return NetworkResult.Success(itunes!!)
+                NetworkResult.Success(itunes!!)
             }
             else -> {
-                return NetworkResult.Error(response.message())
+                NetworkResult.Error(response.message())
             }
         }
     }

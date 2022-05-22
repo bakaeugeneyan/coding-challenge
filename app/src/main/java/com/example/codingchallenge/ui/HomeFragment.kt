@@ -2,13 +2,14 @@ package com.example.codingchallenge.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.codingchallenge.R
 import com.example.codingchallenge.adapters.UsersAdapter
 import com.example.codingchallenge.databinding.FragmentHomeBinding
 import com.example.codingchallenge.utils.NetworkResult
@@ -57,36 +58,41 @@ class HomeFragment : Fragment()
     private fun readDatabase() {
         showShimmerEffect()
         lifecycleScope.launch {
-            mainViewModel.readUserList.observeOnce(viewLifecycleOwner, { database ->
+            mainViewModel.readUserList.observeOnce(viewLifecycleOwner
+            ) { database ->
                 if (database.isNotEmpty()) {
                     Log.d("homeFragment", "readDatabase called!")
                     mAdapter.setData(database[0].userList)
                     hideShimmerEffect()
-                }else {
+                } else {
                     requestApiData()
                 }
-            })
+            }
         }
     }
 
     private fun requestApiData() {
         Log.d("homeFragment", "requestApiData called!")
         mainViewModel.getItunesList(userViewModel.applyQueries())
-        mainViewModel.userResponse.observe(viewLifecycleOwner, { response ->
-            when(response) {
+        mainViewModel.userResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
                 is NetworkResult.Success -> {
                     hideShimmerEffect()
                     response.data?.let { mAdapter.setData(it) }
                 }
                 is NetworkResult.Error -> {
                     hideShimmerEffect()
-                    Toast.makeText(requireContext(), response.message.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        response.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 is NetworkResult.Loading -> {
                     showShimmerEffect()
                 }
             }
-        })
+        }
     }
 
     private fun showShimmerEffect() {
